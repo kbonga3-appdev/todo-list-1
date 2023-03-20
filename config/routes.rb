@@ -3,6 +3,9 @@ Rails.application.routes.draw do
 
 
   # Routes for the User resource:
+        
+  get("/user_sign_in", { :controller => "users", :action => "sign_in" })
+  get("/user_sign_up", { :controller => "users", :action => "sign_up" })
 
   # CREATE
   post("/insert_user", { :controller => "users", :action => "create" })

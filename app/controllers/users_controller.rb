@@ -53,4 +53,13 @@ class UsersController < ApplicationController
 
     redirect_to("/users", { :notice => "User deleted successfully."} )
   end
+
+  def sign_in
+    render({ :template => "users/signin_form.html.erb" })
+  end
+
+  def sign_up
+    render({ :template => "users/signup_form.html.erb" })
+  end
+
 end
