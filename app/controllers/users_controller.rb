@@ -4,7 +4,9 @@ class UsersController < ApplicationController
 
     @list_of_users = matching_users.order({ :created_at => :desc })
 
-    render({ :template => "users/index.html.erb" })
+    # render({ :template => "users/index.html.erb" })
+
+    render({ :template => "todos/todos_user_index.html.erb" })
   end
 
   def show
@@ -20,13 +22,20 @@ class UsersController < ApplicationController
   def create
     the_user = User.new
     the_user.email = params.fetch("query_email")
-    the_user.password_digest = params.fetch("query_password_digest")
+    the_user.password = params.fetch("query_password")
+    the_user.password_confirmation = params.fetch("query_password_confirmation")
+    
 
-    if the_user.valid?
-      the_user.save
+    # if the_user.email != nil
+    #   the_user.save
+   save_status =  the_user.save
+
+   if  save_status == true
+    session.store(:user_id, the_user.id)
+
       redirect_to("/users", { :notice => "User created successfully." })
     else
-      redirect_to("/users", { :alert => the_user.errors.full_messages.to_sentence })
+      redirect_to("/user_sign_up", { :alert => the_user.errors.full_messages.to_sentence })
     end
   end
 
@@ -61,5 +70,32 @@ class UsersController < ApplicationController
   def sign_up
     render({ :template => "users/signup_form.html.erb" })
   end
+
+  def sign_out
+    reset_session
+ 
+    redirect_to("/user_sign_in", { :notice => "You have successfully logged out"})
+   end
+
+   def authenticate
+    un = params.fetch("query_email")
+    pw = params.fetch("query_password")
+
+    user = User.where({ :email => un }).at(0)
+
+    if user == nil
+      redirect_to("/user_sign_in", { :alert => "Username not found! "})
+    else
+     if user.authenticate(pw)
+      session.store(:user_id, user.id)
+
+      # redirect_to("/todos/#{user.id}", { :notice => "Welcome back " + user.email + "!"})
+      redirect_to("/", { :notice => "Welcome back " + user.email + "!"})
+     else
+      redirect_to("/user_sign_in", { :alert => "Wrong Password!"})
+     end
+    end
+  end
+  
 
 end

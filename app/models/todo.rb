@@ -10,4 +10,8 @@
 #  user_id    :integer
 #
 class Todo < ApplicationRecord
+  
+  # def user
+  #   return User.where({ :id => self.user_id }).first
+  # end
 end

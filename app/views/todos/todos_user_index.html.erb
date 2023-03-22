@@ -1,0 +1,125 @@
+      <a href="/">Your todo list</a>
+      |
+      <a href="/edit_user_profile">Edit profile</a>
+      |
+      <a href="/user_sign_out">Sign out</a>
+<div>
+<%= session.fetch(:user_id) %>
+</div>
+
+    <h1>Your todo list</h1>
+
+<div>
+  <div>
+    <h2>
+      Add a new todo
+    </h2>
+
+    <form action="/insert_todo" method="post">
+      <div>
+        <label for="content_box">
+          Describe the task:
+        </label>
+
+        <input type="text" id="content_box" name="query_content">
+        <input type="hidden" name="query_status" value="next_up">
+        <%# $tatus = "next_up" %>
+      </div>
+
+      <button>
+        Add to Next Up
+      </button>
+    </form>
+  </div>
+</div>
+
+
+<div class="next_up">
+  <h2>Next Up</h2>
+  
+  <% @list_of_todos.each do |todos1| %>
+  
+
+  <% if todos1.status == "next_up" %>
+  <div>
+  <ul>
+  <li>
+  <%= todos1.id %>
+  <%= todos1.content %>
+  <%= time_ago_in_words(todos1.created_at) %> ago
+  
+  <a href="/delete_todo/<%= todos1.id %>">Delete</a>
+
+  <form action="/modify_todo/<%= todos1.id %>" method="post">
+  <input type="hidden" name="query_status" value="in_progress">
+  
+  <%# $tatusp = 1 %>
+
+  <button>Move to In Progress<%= todos1.id %></button>
+        
+</li>
+</ul>
+</div>
+  
+  <% end %>  
+  <% end %>
+</div>
+
+
+<div class="in_progress">
+
+  <h2>In Progress</h2>
+
+  <% @list_of_todos.each do |todos| %>
+  
+  <% if todos.status == "in_progress" %>
+  <ul>
+  <li>
+  <%= todos.id %>
+  <%= todos.content %>
+  <%= time_ago_in_words(todos.created_at) %> ago
+
+  
+  <a href="/delete_todo/<%= todos.id %>">Delete</a>
+
+        <form action="/modify_todo/<%= todos.id %>" method="post">
+        <input type="hidden" name="query_status" value="done">
+       <%# $tatusd = 2 %>
+          <button>Move to Done</button>
+
+</li>
+</ul>
+
+<% end %>
+<% end %>
+</div>
+
+
+
+<div class="done">
+
+  <h2>Done</h2>
+
+  <% @list_of_todos.each do |todos| %>
+  
+  <% if todos.status == "done" %>
+  <ul>
+  <li>
+  <%= todos.id %>
+  <%= todos.content %>
+  <%= time_ago_in_words(todos.created_at) %> ago
+
+  
+  <a href="/delete_todo/<%= todos.id %>">Delete</a>
+
+        <form action="/modify_todo/<%= todos.id %>" method="post">
+        <input type="hidden" name="query_status" value="done">
+       <%# $tatusd = 2 %>
+          <button>Move to Done</button>
+
+</li>
+</ul>
+
+<% end %>
+<% end %>
+</div>

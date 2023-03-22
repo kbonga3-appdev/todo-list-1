@@ -6,6 +6,11 @@ Rails.application.routes.draw do
         
   get("/user_sign_in", { :controller => "users", :action => "sign_in" })
   get("/user_sign_up", { :controller => "users", :action => "sign_up" })
+  post("/user_verify_credentials", { :controller => "users", :action => "authenticate" })
+
+  get("/user_sign_out", { :controller => "users", :action => "sign_out" })
+
+  
 
   # CREATE
   post("/insert_user", { :controller => "users", :action => "create" })
@@ -29,8 +34,12 @@ Rails.application.routes.draw do
   # CREATE
   post("/insert_todo", { :controller => "todos", :action => "create" })
           
-  # READ
-  get("/todos", { :controller => "todos", :action => "index" })
+  # --> READ
+  get("/todos", { :controller => "users", :action => "create" })
+
+  get("/", { :controller => "todos", :action => "index" })
+
+  post("/", { :controller => "todos", :action => "update" })
   
   get("/todos/:path_id", { :controller => "todos", :action => "show" })
   

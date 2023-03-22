@@ -9,5 +9,15 @@
 #  updated_at      :datetime         not null
 #
 class User < ApplicationRecord
+  validates(:email,
+     {
+      :presence => true,
+      :uniqueness => { :case_sensitive => false }
+     }
+  )
   has_secure_password
+
+  # def todos
+  #   return Todo.where({ :user_id => self.id })
+  # end
 end
