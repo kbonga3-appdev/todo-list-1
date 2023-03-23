@@ -21,7 +21,7 @@
           Describe the task:
         </label>
 
-        <input type="text" id="content_box" name="query_content">
+      <input type="text" id="content_box" name="query_content">
         <input type="hidden" name="query_status" value="next_up">
         <%# $tatus = "next_up" %>
       </div>
@@ -57,7 +57,9 @@
   
   <%# $tatusp = 1 %>
 
-  <button>Move to In Progress<%= todos1.id %></button>
+  
+<button> Move to In Progress</button>
+ </form>
         
 </li>
 </ul>
@@ -81,7 +83,8 @@
   <%= todos.content %>
 
    <div>
- Started <%= time_ago_in_words(todos.created_at) %> ago
+ 
+Started <%= time_ago_in_words(todos.updated_at) %> ago
   <a href="/delete_todo/<%= todos.id %>">Delete</a>
    </div>
 
@@ -112,7 +115,20 @@
   <%= todos.content %>
 
   <div>
- Completed at<%= time_ago_in_words(todos.created_at) %> ago
+ 
+  <%# Time.zone.now.to_formatted_s(:symbol) %>
+ <%# Time.strptime(string, "%Y-%m-%dT%H:%M:%S%z") %>
+
+
+
+ <%# t = Time.now %>
+ <% t = todos.updated_at %>
+ <%= t.time.strftime("Completed at %l:%M%P on %d-%b-%Y") %>
+
+ 
+
+<%# distance_of_time_in_words_to_now(todos.created_at) %>
+ 
   <a href="/delete_todo/<%= todos.id %>">Delete</a>
   </div>
 

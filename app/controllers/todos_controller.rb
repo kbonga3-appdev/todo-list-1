@@ -40,6 +40,7 @@ class TodosController < ApplicationController
   def update
     the_id = params.fetch("path_id")
     matching_todos = Todo.where({ :id => the_id }).at(0)
+    p  params.fetch("query_status")
     matching_todos.status = params.fetch("query_status")
 
     if matching_todos.valid?
