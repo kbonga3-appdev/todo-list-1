@@ -8,17 +8,15 @@ class TodosController < ApplicationController
 
     @list_of_todos = matching_todos.order({ :created_at => :asc })
 
+    @person =  Todo.new
 
     render({ :template => "todos/todos_user_index.html.erb" })
   end
 
   def show
     # the_id = params.fetch("path_id")
-
     # matching_todos = Todo.where({ :id => the_id })
-
     # @the_todo = matching_todos.at(0)
-
     # render({ :template => "todos/show.html.erb" })
 
     render({ :template => "todos/todos_user_index.html.erb" })
@@ -28,8 +26,6 @@ class TodosController < ApplicationController
     the_todo = Todo.new
     the_todo.content = params.fetch("query_content")
      the_todo.status = params.fetch("query_status")
-    # the_todo.status = $query_status
-    # the_todo.user_id = params.fetch("query_user_id")
     the_todo.user_id = session.fetch(:user_id)
 
     if the_todo.valid?
@@ -61,6 +57,6 @@ class TodosController < ApplicationController
 
     the_todo.destroy
 
-    redirect_to("/todos", { :notice => "Todo deleted successfully."} )
+    redirect_to("/", { :notice => "Todo deleted successfully."} )
   end
 end
